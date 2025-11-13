@@ -1,0 +1,17 @@
+grid_size: 5
+initial_energy: 10
+initial_skill_level: 0
+goal_skill_level: 5
+reward:
+  move: -0.1
+  learn: 2
+  rest: 1
+  reach_goal: 10
+  out_of_energy: -5
+actions:
+  - up
+  - down
+  - left
+  - right
+  - learn
+  - rest

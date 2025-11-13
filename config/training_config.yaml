@@ -1,0 +1,27 @@
+dqn:
+  learning_rate: 0.001
+  buffer_size: 50000
+  batch_size: 32
+  gamma: 0.99
+  target_update_interval: 500
+  total_timesteps: 50000
+
+ppo:
+  learning_rate: 0.0003
+  n_steps: 2048
+  batch_size: 64
+  gamma: 0.99
+  ent_coef: 0.0
+  total_timesteps: 50000
+
+a2c:
+  learning_rate: 0.0007
+  n_steps: 5
+  gamma: 0.99
+  ent_coef: 0.01
+  total_timesteps: 50000
+
+reinforce:
+  learning_rate: 0.001
+  gamma: 0.99
+  episodes: 500

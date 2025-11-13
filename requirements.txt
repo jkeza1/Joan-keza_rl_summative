@@ -1,0 +1,10 @@
+gymnasium==0.29.1
+pygame==2.6.1
+stable-baselines3==2.3.0
+torch==2.9.0
+torchvision==0.24.0
+torchaudio==2.9.0
+numpy
+pandas
+matplotlib
+PyYAML
