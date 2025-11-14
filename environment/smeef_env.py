@@ -93,7 +93,7 @@ class SMEEFEnv(gym.Env):
 
     def render(self):
         from environment.rendering import render_environment
-        render_environment(self)
+        return render_environment(self)
 
     def close(self):
         if self.window is not None:

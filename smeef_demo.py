@@ -14,7 +14,8 @@ with open("config/env_config.yaml", "r") as f:
     env_config = yaml.safe_load(f)
 
 # Initialize environment
-env = SMEEFEnv(config=env_config, render_mode="rgb_array")  # get frames as images
+render_mode = "human" 
+env = SMEEFEnv(config=env_config, render_mode=render_mode)  
 
 # -------------------------------
 # Select algorithm to load
@@ -33,7 +34,7 @@ else:
 
 # Load agent
 if algorithm == "dqn":
-    agent = DQN.load(model_path, env=env)
+    agent = DQN.load(model_path)
 elif algorithm == "ppo":
     agent = PPO.load(model_path, env=env)
 elif algorithm == "a2c":

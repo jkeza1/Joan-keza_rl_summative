@@ -53,3 +53,6 @@ def render_environment(env):
 
     pygame.display.flip()
     env.clock.tick(env.metadata["render_fps"])
+    frame = pygame.surfarray.array3d(env.window)  # shape: (width, height, 3)
+    frame = np.transpose(frame, (1, 0, 2))        # transpose to (height, width, 3)
+    return frame
