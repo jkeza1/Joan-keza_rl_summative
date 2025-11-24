@@ -68,13 +68,13 @@ def train_ppo_ultra_fast():
             verbose=0,
         )
         
-        # ULTRA-FAST training - only 2000 steps!
+        
         model.learn(total_timesteps=100000)
         
-        # Quick evaluation
+    
         mean_reward = evaluate_ppo_ultra_fast(model)
         
-        # Store results
+        
         result = {
             'run_id': i + 1,
             'group': params['group'],
@@ -212,6 +212,5 @@ def train_ppo_simple():
     env.close()
 
 if __name__ == "__main__":
-    # Choose one:
-    # train_ppo_simple()       # 🚀 Your original version (fast)
-    train_ppo_ultra_fast() # ⚡ Full hyperparameter tuning (1-2 minutes)
+          
+    train_ppo_ultra_fast() 
