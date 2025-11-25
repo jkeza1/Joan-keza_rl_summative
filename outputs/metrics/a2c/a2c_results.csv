@@ -1,0 +1,11 @@
+run_id,group,learning_rate,gamma,n_steps,ent_coef,vf_coef,mean_reward,std_reward,target_reward,difference,model_path
+1,High_LR,0.001,0.99,64,0.01,0.5,-24.800000000000004,3.552713678800501e-15,-33.45,8.649999999999999,models/a2c/a2c_run_1_High_LR
+2,Medium_LR,0.0007,0.99,64,0.01,0.5,-34.55,0.0,-27.35,-7.199999999999996,models/a2c/a2c_run_2_Medium_LR
+3,Low_LR,0.0003,0.99,64,0.01,0.5,-34.55,0.0,-34.55,0.0,models/a2c/a2c_run_3_Low_LR
+4,Short_Steps,0.0007,0.99,32,0.01,0.5,-25.199999999999996,3.552713678800501e-15,-25.8,0.600000000000005,models/a2c/a2c_run_4_Short_Steps
+5,Long_Steps,0.0007,0.99,128,0.01,0.5,-34.55,0.0,-32.1,-2.4499999999999957,models/a2c/a2c_run_5_Long_Steps
+6,Low_Entropy,0.0007,0.99,64,0.001,0.5,-34.55,0.0,-34.55,0.0,models/a2c/a2c_run_6_Low_Entropy
+7,High_Entropy,0.0007,0.99,64,0.1,0.5,-34.55,0.0,-25.8,-8.749999999999996,models/a2c/a2c_run_7_High_Entropy
+8,Best_Model,0.0007,0.99,64,0.01,0.25,-34.55,0.0,-24.4,-10.149999999999999,models/a2c/a2c_run_8_Best_Model
+9,High_VF_Coef,0.0007,0.99,64,0.01,0.75,-34.55,0.0,-30.35,-4.199999999999996,models/a2c/a2c_run_9_High_VF_Coef
+10,Aggressive,0.001,0.99,128,0.01,0.5,-34.55,0.0,-34.35,-0.19999999999999574,models/a2c/a2c_run_10_Aggressive

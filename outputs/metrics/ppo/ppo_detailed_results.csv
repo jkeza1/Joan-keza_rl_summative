@@ -1,0 +1,12 @@
+run_id,group,learning_rate,n_steps,batch_size,n_epochs,clip_range,mean_reward,std_reward,expected_reward,reward_difference,improvement_status,notes,target_improvement
+1,High LR,0.001,64,16,3,0.2,-22.146131458636283,3.536487255723619,-31.45,9.303868541363716,✅ EXCEEDED,Initial high LR run,Reduce LR for better stability
+2,Standard LR,0.0003,64,16,3,0.2,-11.32330509138566,4.417573017022878,-24.4,13.07669490861434,✅ EXCEEDED,New best model,Baseline configuration
+3,Low LR,0.0001,64,16,3,0.2,-18.779178108904272,8.94516817067639,-24.6,5.820821891095729,✅ EXCEEDED,Slightly worse than Run 2,May need more timesteps to converge
+4,Short Steps,0.0003,32,16,3,0.2,-25.76525481557602,9.052863984380453,-24.6,-1.16525481557602,⚠️ BELOW,"Short steps, same reward as Run 3",More frequent updates but less data per update
+5,Long Steps,0.0003,128,16,3,0.2,-12.547577629301431,4.235973185954207,-24.4,11.852422370698568,✅ EXCEEDED,Matches Run 2,More data per update but less frequent
+6,Small Batch,0.0003,64,8,3,0.2,-18.94912441788836,6.690993012817607,-24.4,5.450875582111639,✅ EXCEEDED,"Small batch, same as Run 2",More noisy updates but faster
+7,Large Batch,0.0003,64,32,3,0.2,-25.09618863979925,9.216103648728163,-34.55,9.453811360200746,✅ EXCEEDED,Large batch has worse performance,Reduce batch size for better performance
+8,Few Epochs,0.0003,64,16,2,0.2,-16.965164559730752,6.655635132814827,-25.45,8.484835440269247,✅ EXCEEDED,"Fewer epochs, slightly worse",Increase epochs for better optimization
+9,More Epochs,0.0003,64,16,5,0.2,-14.392280395901599,13.456106582332522,-24.2,9.8077196040984,✅ EXCEEDED,"More epochs, good performance",Good balance of computation and performance
+10,Tight Clip,0.0003,64,16,3,0.1,-19.084287932716517,10.01862879135778,-24.0,4.915712067283483,✅ EXCEEDED,New best overall,Conservative updates work best
+11,Loose Clip,0.0003,64,16,3,0.3,-18.02173864750368,6.204688267796062,-25.0,6.978261352496322,✅ EXCEEDED,Test loose clipping,May allow too large policy changes
