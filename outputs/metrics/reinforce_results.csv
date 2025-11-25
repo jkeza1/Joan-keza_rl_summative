@@ -1,0 +1,13 @@
+run,best_reward,final_reward,final_avg100,avg_episode_length,learning_rate,gamma,hidden_size,best_model_path
+run_7,-18.02200002849102,-41.65,-51.572244999999995,40.116,0.001,0.9,64,models/reinforce/best_model_run_7.pt
+run_2,-19.184500059127807,-46.5,-47.190025,36.468,0.0005,0.9,128,models/reinforce/best_model_run_2.pt
+run_12,-19.8555,-25.4,-25.93,22.041,0.001,0.99,128,models/reinforce/best_model_run_12.pt
+run_4,-19.922000036239623,-31.95,-30.52574,26.775,0.0005,0.95,128,models/reinforce/best_model_run_4.pt
+run_3,-19.984500059127807,-34.85,-43.5638,36.814,0.0005,0.9,64,models/reinforce/best_model_run_3.pt
+run_1,-20.3555,-40.449999999999996,-39.8918800002098,34.14,0.0005,0.9,64,models/reinforce/best_model_run_1.pt
+run_5,-20.675,-30.1,-31.373050000000003,29.483,0.0005,0.95,64,models/reinforce/best_model_run_5.pt
+run_11,-21.060000000000002,-25.2,-26.008299999999995,22.149,0.001,0.99,64,models/reinforce/best_model_run_11.pt
+run_6,-21.2075,-29.35,-26.308075,22.641,0.0005,0.99,128,models/reinforce/best_model_run_6.pt
+run_8,-22.11,-51.0,-48.454224999999994,39.503,0.001,0.9,128,models/reinforce/best_model_run_8.pt
+run_10,-22.348000051498413,-25.45,-28.6375,24.531,0.001,0.95,128,models/reinforce/best_model_run_10.pt
+run_9,-22.66,-27.2,-29.805550000000004,25.583,0.001,0.95,64,models/reinforce/best_model_run_9.pt
