@@ -1,24 +1,4 @@
-SMEEF Reinforcement Learning Project
-Project Overview
-This project implements and compares four reinforcement learning algorithms (DQN, REINFORCE, A2C, PPO) on a custom environment called SMEEF (Single Mother Economic Empowerment Framework). The environment simulates decision-making for single mothers balancing resources, services, and child well-being in a grid-based world.
 
-Environment Description
-Mission
-Maximize cumulative well-being by managing resources (money, energy, skills, social support) while reducing needs (childcare, financial, emotional, career) and improving child health/happiness.
-
-Action Space
-Discrete with 8 actions:
-
-MOVE_UP (0), MOVE_DOWN (1), MOVE_LEFT (2), MOVE_RIGHT (3)
-
-USE_SERVICE (4), WORK_PART_TIME (5), ATTEND_TRAINING (6), SEEK_SUPPORT (7)
-
-Observation Space
-Dictionary containing:
-
-position: 2D coordinates in grid
-
-resources: [money, energy, skills, social_support] ∈ [0,100]
  # SMEEF Reinforcement Learning Project
 
 ## Project Overview
@@ -264,6 +244,14 @@ Comprehensive results including:
 - Comparative analysis of sample efficiency
 
 - Robustness evaluation across multiple seeds
+
+### PPO performance graph
+
+![PPO: Actual vs Expected Performance](assets/ppo_graph.png)
+
+*Figure: PPO actual vs expected performance across hyperparameter sweeps.*
+
+Please copy the file `c:\Users\HP\Downloads\ppo_graph.png` into the repository at `assets/ppo_graph.png` (or place the image at `outputs/plots/ppo_graph.png` and update the path above) so the image renders on GitHub and local previews.
 
 ## Video Demonstration
 Project video available at: https://youtu.be/9XwhzTRiBbo
