@@ -96,162 +96,128 @@ SMEEF_RL/
 │   ├── dqn/                 # Saved DQN models
 │   ├── ppo/                 # Saved PPO models
 │   ├── a2c/                 # Saved A2C models
-│   └── reinforce/           # Saved REINFORCE models
-│
-├── outputs/
-│   ├── logs/                # TensorBoard, console transcripts
-│   ├── metrics/             # summary.csv + per-run stats
-│   ├── plots/               # learning curves, comparison plots
-│   └── videos/              # random demo + agent recordings
-│
-├── demos/
-│   ├── run_random_demo.py   # Static frames/random movement (wrapper)
-│   └── manual_control.py    # Optional: keyboard-controlled agent (placeholder)
-│
-├── report/
-│   ├── figures/             # Exported plots for the PDF
-  └── SMEEF_RL_Report.pdf   # Optional: final write-up (add before submission)
-│
-└── utils/
-	 ├── __init__.py
-	 ├── seeds.py             # Global seed helper
-	 ├── file_paths.py        # Centralized paths for models/outputs/
-	 └── plot_helpers.py      # Reusable plotting utilities
+# SMEEF_RL
 
-```
+A reinforcement-learning project that implements a custom mission-based environment (SMEEF) plus training and demo utilities for several RL algorithms (DQN, PPO, A2C, REINFORCE). The repository contains the environment code, agent implementations, training scripts, saved models, plotting utilities and example demos/visualizations.
 
-## Environment overview
+This README documents: quick setup, how to run demos and training scripts, where artifacts are stored, and a short repo map.
 
-Custom SMEEF environment (see `environment/smeef_env.py`) — mission-based gridworld with a mixed observation dictionary and a compact flattened wrapper.
+## Quick start
 
-Observation space (Dict):
+Requirements
 
-- `position` — (2 ints) grid coordinates
-- `resources` — (4 floats) [Money, Energy, Skills, Support]
-- `needs` — (4 floats) [Childcare, Financial, Emotional, Career]
-- `child_status` — (2 floats) [Health, Happiness]
+- Python 3.10–3.12 (recommended)
+- Create and activate a virtual environment before installing dependencies.
 
-Action space (Discrete enum):
-
-- Movement: MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT
-- Mission actions: USE_SERVICE, WORK_PART_TIME, ATTEND_TRAINING, SEEK_SUPPORT, etc.
-
-Reward structure
-
-- Shaped rewards based on resource deltas and need-reduction
-- Additional bonuses for service usage and mission completion
-- Reward breakdown exposed via `info['reward_components']` for diagnostics
-
-Terminal conditions
-
-- Reaching a goal location
-- Critical resource depletion
-- Exceeding maximum steps
-
-Tip: for training with ML-friendly MLP policies, wrap the env with `NormalizeFlattenObs` from `environment/obs_wrappers.py` to convert the dict observation into a flat Box.
-
-## Algorithms implemented
-
-Implemented algorithms and where to find training code:
-
-- DQN (value-based) — `training/dqn_training.py` (Stable-Baselines3)
-- PPO (policy optimization) — `training/ppo_demo.py` (Stable-Baselines3)
-- A2C (actor-critic) — `training/a2c_ultra_fast.py` (Stable-Baselines3 wrapper)
-- REINFORCE (vanilla policy gradient) — `training/reinforce_training.py` (PyTorch)
-
-Each SB3 training script uses the `NormalizeFlattenObs` wrapper to ensure the observation matches the policy network input shape.
-
-## Usage examples
-
-Training & evaluation
+Windows PowerShell example:
 
 ```powershell
-# Quick model comparison
-python training/compare_all.py
-
-# REINFORCE smoke test (200 episodes)
-python training/reinforce_training.py --total-episodes 200
-
-# REINFORCE hyperparameter sweep (10 configurations)
-python training/reinforce_training.py --sweep --total-episodes 1000
-
-# Individual algorithm training
-python training/dqn_training.py
-python training/a2c_ultra_fast.py
-python training/ppo_demo.py
+python -m venv .venv311
+.venv311\\Scripts\\Activate.ps1
+pip install -r requirements.txt
 ```
 
-Visualization & recording
+Notes
+
+- There is a local virtual environment directory `.venv311` in this workspace — consider adding it to `.gitignore` if you push this repo.
+- The project depends on packages listed in `requirements.txt`.
+
+## Quick examples
+
+- Run the interactive demo (pygame visualization):
 
 ```powershell
-# Cinematic interactive demo
 python smeef.py
+```
 
-# Static demo with frame saving
+- Run static / headless demo (saves frames or video):
+
+```powershell
 python run_random_demo.py --save-frames outputs/videos/random_demo
 ```
 
-Model files
-
-Place trained checkpoints in `models/<algorithm>/` (SB3 `.zip` or PyTorch `.pt`/`.pth`). `smeef.py` reads `MODEL_PATHS` constants to load models for visualization.
-
-## Assignment requirements checklist
-
-This project includes the items requested for assignment submission:
-
-- Custom Gym/N mission-based environment with complex dictionary observations and mission actions
-- Interactive PyGame visualization (`smeef.py`) and static demo saving (`run_random_demo.py`)
-- Implementations of DQN, PPO, A2C (SB3) and REINFORCE (PyTorch)
-- Hyperparameter sweep tooling for REINFORCE (10+ configs)
-- Metrics logging to `outputs/metrics/summary.csv` and reusable plot helpers
-
-## Submission artifacts
-
-Ensure your submission includes these items:
-
-- Full repository tree and source code
-- Trained model checkpoints in `models/` for each algorithm
-- `outputs/` containing `metrics/summary.csv`, `plots/`, `videos/`, and `logs/`
-- Short PDF report (2–4 pages) in `report/` describing environment design, reward shaping, hyperparameter choices, and results — include exported figures from `report/figures/`
-
-## Troubleshooting
-
-Common issues and fixes
-
-- Observation shape errors
-
-```python
-# Use wrapper for MLP policies
-from environment.obs_wrappers import NormalizeFlattenObs
-env = NormalizeFlattenObs(env)
-```
-
-- Action conversion issues
-
-```python
-# Convert numpy actions to Python ints
-action = int(action[0]) if hasattr(action, '__len__') else action
-```
-
-- Model compatibility
-
-Ensure that the observation space used during training matches the one used during evaluation/visualization. Check `MODEL_PATHS` in `smeef.py` and point them to the trained files.
-
-If you see editor warnings about missing optional packages (numpy, torch, matplotlib), install them into the repo virtual environment:
+- Run a PPO example/demo:
 
 ```powershell
-pip install numpy torch matplotlib stable-baselines3 gymnasium
+python ppo_demo.py
 ```
 
-## Notes & next steps
+## Training scripts
 
-- I added lightweight wrappers and small helper files to expose the requested layout while keeping original code intact.
-- If you want me to actually move/rename files (instead of wrappers), I can perform a safe refactor (git-move + update imports) and run quick syntax checks.
+Top training scripts live in the `training/` folder. Examples:
 
-If you'd like that refactor (move the real implementations into `demos/` and `training/`), tell me and I'll proceed with the moves and run validation.
+- `training/dqn_training.py` — DQN training (SB3)
+- `training/ppo_training.py` — PPO training (SB3)
+- `training/a2c_training.py` — A2C training (SB3)
+- `training/reinforce_training.py` — REINFORCE (PyTorch) and sweep tooling
+- `training/compare_all.py` — evaluate multiple saved models and produce comparison plots
+
+Run (example):
+
+```powershell
+python training/dqn_training.py
+python training/reinforce_training.py --total-episodes 500
+python training/compare_all.py
+```
+
+See `config/training_config.yaml` for default training hyperparameters.
+
+## Project layout (important files)
+
+- `smeef.py` — interactive demo and model playback (main entrypoint for visualization)
+- `smeef_demo.py`, `ppo_demo.py`, `enhanced_demo.py`, `run_random_demo.py` — demo scripts
+- `environment/` — custom environment implementation and wrappers
+  - `smeef_env.py` — core environment
+  - `obs_wrappers.py` — helper wrappers (NormalizeFlattenObs, etc.)
+  - `rendering.py` — rendering helpers
+- `agents/` — agent policy code
+  - `a2c_agent.py`, `dqn_agent.py`, `ppo_agent.py`, `reinforce_agent.py`
+- `training/` — training runners and utilities
+- `models/` — saved model artifacts (SB3 `.zip`, PyTorch `.pt`/`.pth`)
+- `outputs/` — generated outputs: `logs/`, `metrics/`, `plots/`, `videos/`
+- `config/` — configuration YAMLs (`env_config.yaml`, `training_config.yaml`)
+- `requirements.txt` — pinned Python dependencies
+- `scripts/` — plotting and analysis scripts (plotting helpers used to build figures)
+
+## Models & outputs
+
+- Trained models are stored under `models/<algorithm>/`. The repo contains several saved runs (zip/pt files).
+- Experiment artifacts (metrics, plots, TensorBoard logs, videos) are under `outputs/` (e.g. `outputs/metrics/`, `outputs/plots/`, `outputs/videos/`).
+
+## Environment summary
+
+The SMEEF environment (`environment/smeef_env.py`) exposes a mission-based grid-like task. Observations are provided as a dict; for training with standard MLP policies use the wrapper in `environment/obs_wrappers.py` to flatten/normalize the observation into a Box.
+
+Reward and termination logic are implemented in `smeef_env.py`. Use the `info` dict returned on each step for diagnostics (reward components, mission status, etc.).
+
+## Usage notes & troubleshooting
+
+- Observation-shape mismatch: ensure you apply the same `NormalizeFlattenObs` wrapper at training and inference.
+- Model compatibility: SB3 models are `.zip` files; PyTorch policies are `.pt`/`.pth` files. Check `smeef.py` for the `MODEL_PATHS` constants to point playback to a specific file.
+- Missing packages: install via `pip install -r requirements.txt` into the activated venv.
+
+## Suggested submission checklist
+
+If preparing this repository for a submission or external sharing, include:
+
+1. Source code (all `.py` files under repo root, `environment/`, `agents/`, `training/`)
+2. Trained model checkpoints under `models/` for the algorithms you want to demonstrate
+3. `outputs/` with sample `plots/`, `metrics/summary.csv`, and `videos/`
+4. A short report in `report/` containing environment description, reward shaping decisions, hyperparameter choices and key figures
+
+## Next steps I can help with
+
+- Shorten or expand this README
+- Add a CONTRIBUTING.md, LICENSE, or .gitignore that excludes local venvs
+- Create a one-page PDF report template in `report/`
+- Add automated scripts to export `report/figures/` from `outputs/plots/`
 
 ---
 
-Good luck with the assignment — tell me if you want the README tweaked (shorter/longer), a submission PDF template, or automation to export figures into `report/figures/`.
+If you'd like any of the suggested follow-ups implemented (e.g., `.gitignore`, report template, or moving/renaming files for clearer structure), tell me which and I'll proceed.
+Common issues and fixes
 
+
+
+- Observation shape errors
 
