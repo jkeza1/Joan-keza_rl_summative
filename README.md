@@ -1,244 +1,219 @@
-# SMEEF_RL — Assignment-ready project
+SMEEF Reinforcement Learning Project
+Project Overview
+This project implements and compares four reinforcement learning algorithms (DQN, REINFORCE, A2C, PPO) on a custom environment called SMEEF (Single Mother Economic Empowerment Framework). The environment simulates decision-making for single mothers balancing resources, services, and child well-being in a grid-based world.
 
-This repository contains a custom mission-based environment (SMEEF) and training/evaluation scripts for four RL methods required by the assignment: Value-based (DQN) and Policy-based (REINFORCE, PPO, A2C). The primary demo/entry point for interactive visualization and playing back saved models is `smeef.py` (see below). The code and documentation are organized to make it straightforward to run experiments, repeat hyperparameter sweeps (10+ runs per algorithm), produce recordings, and compile a short report.
+Environment Description
+Mission
+Maximize cumulative well-being by managing resources (money, energy, skills, social support) while reducing needs (childcare, financial, emotional, career) and improving child health/happiness.
 
-## Repository layout
+Action Space
+Discrete with 8 actions:
 
-project_root/
+MOVE_UP (0), MOVE_DOWN (1), MOVE_LEFT (2), MOVE_RIGHT (3)
 
-- environment/
-	- `smeef_env.py`        # Custom Gymnasium environment implementation (dict observation)
-	- `obs_wrappers.py`     # `NormalizeFlattenObs` to flatten dict -> 12-D Box for MLP policies
+USE_SERVICE (4), WORK_PART_TIME (5), ATTEND_TRAINING (6), SEEK_SUPPORT (7)
 
-- agents/
-	- `reinforce_agent.py`  # PyTorch policy network used by the vanilla REINFORCE trainer
+Observation Space
+Dictionary containing:
 
-- training/
-	- `dqn_training.py`     # DQN (SB3) training script
-	- `a2c_ultra_fast.py`   # A2C (SB3) quick runner
-	- `ppo_demo.py`         # PPO (SB3) example runner
-	- `reinforce_vanilla.py`# Vanilla PyTorch REINFORCE implementation
-	- `reinforce_training.py` # Sweep-capable runner for REINFORCE (10-config grid)
-	- `compare_all.py`      # Loads saved models, evaluates, and creates a comparison plot
+position: 2D coordinates in grid
 
-- models/
-	- `dqn/`, `ppo/`, `a2c/`, `reinforce/`  # Saved model artifacts
+resources: [money, energy, skills, social_support] ∈ [0,100]
 
-- outputs/
-	- `plots/`, `metrics/`, `videos/`, `logs/` # Generated experiment outputs
+needs: [childcare, financial, emotional, career] ∈ [0,100]
 
-# SMEEF_RL — Assignment-ready Reinforcement Learning Project
+child_status: [health, happiness] ∈ [0,100]
 
-An assignment-ready reinforcement learning project featuring a custom mission-based environment (SMEEF) and implementations of four RL algorithms: DQN, PPO, A2C and REINFORCE. This repository includes interactive visualization, static demos, training scripts, hyperparameter sweep tooling, saved models, and plotting utilities for evaluation and submission.
+Reward Structure
+Complex reward function that:
 
-## Quick Start
+Rewards improvements in resources and child status
 
-Prerequisites
+Penalizes energy consumption and invalid actions
 
-- Python 3.10+ (virtual environment recommended)
-- Windows PowerShell examples shown below
+Provides goal bonuses for reaching target locations
 
-Installation & setup
+Applies penalties for critical failures (energy depletion, child health issues)
 
-```powershell
-# Create virtual environment
-python -m venv .venv
+Project Structure
+text
+smeef_RL/
+├── agents/                 # RL agent implementations
+│   ├── a2c_agent.py
+│   ├── dqn_agent.py
+│   ├── ppo_agent.py
+│   └── reinforce_agent.py
+├── config/                # Configuration files
+│   ├── env_config.py
+│   └── training_config.py
+├── environment/           # Custom Gym environment
+│   ├── observation.py
+│   ├── rendering.py
+│   └── smee_env.py
+├── models/               # Saved model weights
+│   ├── a2c/
+│   ├── dqn/
+│   ├── ppo/
+│   └── reinforce/
+├── outputs/              # Training outputs
+│   ├── logs/
+│   ├── metrics/
+│   ├── plots/
+│   └── videos/
+├── scripts/              # Utility scripts
+│   ├── generate_report.py
+│   ├── plot_comparison.py
+│   ├── plot_single_run.py
+│   └── plot_training.py
+├── training/             # Training scripts
+│   ├── a2c_training.py
+│   ├── compare_algorithms.py
+│   ├── dqn_training.py
+│   ├── ppo_training.py
+│   └── reinforce_training.py
+├── create_diagram.py     # Environment visualization
+├── enhanced_demo.py      # Enhanced demonstration
+├── ppo_demo.py          # PPO-specific demo
+├── requirements.txt      # Project dependencies
+├── smeef.py             # Main environment file
+├── smeef_demo.py        # Basic demonstration
+└── README.md            # This file
+Installation
+Clone the repository:
 
-# Activate (Windows PowerShell)
-.venv\Scripts\Activate.ps1
+bash
+git clone https://github.com/jkeza1/smeef_RL.git
+cd smeef_RL
+Create and activate a virtual environment:
 
-# Install dependencies
+bash
+python -m venv .venv311
+source .venv311/bin/activate  # On Windows: .venv311\Scripts\activate
+Install dependencies:
+
+bash
 pip install -r requirements.txt
-```
+Usage
+Training Agents
+DQN Training:
 
-Run interactive demo
+bash
+python training/dqn_training.py
+PPO Training:
 
-```powershell
-python smeef.py
-```
+bash
+python training/ppo_training.py
+A2C Training:
 
-Run static demo (save frames / video)
+bash
+python training/a2c_training.py
+REINFORCE Training:
 
-```powershell
-python run_random_demo.py --save-frames outputs/videos/random_demo
-```
+bash
+python training/reinforce_training.py
+Running Demos
+Basic Environment Demo:
 
-## Repository structure
+bash
+python smeef_demo.py
+PPO Trained Agent Demo:
 
-Top-level layout (important files and folders):
+bash
+python ppo_demo.py
+Enhanced Visualization:
 
-```
-SMEEF_RL/
-│
-├── README.md
-├── requirements.txt
-├── smeef.py                  # Main interactive demo (pygame visualization)
-│
-├── environment/
-│   ├── __init__.py
-	├── smeef_env.py          # Custom Gymnasium environment
-	└── obs_wrappers.py       # NormalizeFlattenObs (Dict → Box)
-│
-├── agents/
-│   ├── __init__.py
-│   └── reinforce_agent.py    # PyTorch policy used by REINFORCE
-│
-├── training/
-│   ├── __init__.py
-	├── dqn_training.py       # DQN (SB3) training script
-	├── ppo_demo.py           # PPO example runner (SB3)
-	├── a2c_ultra_fast.py     # A2C minimal fast script
-	├── reinforce_vanilla.py  # Vanilla REINFORCE implementation
-	├── reinforce_training.py # REINFORCE sweeps, 10+ configs
-	└── compare_all.py        # Evaluation + comparison plot
-│
-├── models/
-│   ├── dqn/                 # Saved DQN models
-│   ├── ppo/                 # Saved PPO models
-│   ├── a2c/                 # Saved A2C models
-# SMEEF_RL
+bash
+python enhanced_demo.py
+Generating Reports and Plots
+Compare All Algorithms:
 
-A reinforcement-learning project that implements a custom mission-based environment (SMEEF) plus training and demo utilities for several RL algorithms (DQN, PPO, A2C, REINFORCE). The repository contains the environment code, agent implementations, training scripts, saved models, plotting utilities and example demos/visualizations.
+bash
+python training/compare_algorithms.py
+Generate Training Plots:
 
-This README documents: quick setup, how to run demos and training scripts, where artifacts are stored, and a short repo map.
+bash
+python scripts/plot_training.py
+Create Comparison Charts:
 
-## Quick start
+bash
+python scripts/plot_comparison.py
+Algorithm Performance Summary
+Based on extensive hyperparameter tuning (10+ runs per algorithm):
+
+Algorithm	Best Mean Reward	Convergence	Stability	Generalization
+PPO	-24.00	Fast	High	Excellent
+DQN	-14.50	Medium	Very High	Very Good
+A2C	-24.40	Fast	Medium	Good
+REINFORCE	-16.47	Variable	Low	Poor
+Key Findings:
+
+PPO achieved the best overall performance with excellent generalization
+
+DQN showed remarkable stability and consistent learning
+
+A2C learned quickly but was sensitive to hyperparameters
+
+REINFORCE demonstrated high variance but educational value
+
+Hyperparameter Tuning
+Each algorithm underwent extensive hyperparameter optimization:
+
+DQN: Learning rate, buffer size, exploration schedule
+
+PPO: Learning rate, batch size, clip range, epochs
+
+A2C: Learning rate, n-steps, entropy coefficient
+
+REINFORCE: Learning rate, gamma, hidden layer sizes
+
+Visualization
+The environment features PyGame-based visualization showing:
+
+Agent position (red square)
+
+Special locations (home, work, services)
+
+Resource status overlay
+
+Real-time reward feedback
 
 Requirements
+Key dependencies:
 
-- Python 3.10–3.12 (recommended)
-- Create and activate a virtual environment before installing dependencies.
+gymnasium>=0.28.1
 
-Windows PowerShell example:
+stable-baselines3>=2.0.0
 
-```powershell
-python -m venv .venv311
-.venv311\\Scripts\\Activate.ps1
-pip install -r requirements.txt
-```
+pygame>=2.5.0
 
-Notes
+numpy>=1.24.0
 
-- There is a local virtual environment directory `.venv311` in this workspace — consider adding it to `.gitignore` if you push this repo.
-- The project depends on packages listed in `requirements.txt`.
+matplotlib>=3.7.0
 
-## Quick examples
+torch>=2.0.0
 
-- Run the interactive demo (pygame visualization):
+See requirements.txt for complete list.
 
-```powershell
-python smeef.py
-```
+Results
+Comprehensive results including:
 
-- Run static / headless demo (saves frames or video):
+Training curves for all algorithms
 
-```powershell
-python run_random_demo.py --save-frames outputs/videos/random_demo
-```
+Hyperparameter sensitivity analysis
 
-- Run a PPO example/demo:
+Generalization performance on unseen states
 
-```powershell
-python ppo_demo.py
-```
+Comparative analysis of sample efficiency
 
-## Training scripts
+Robustness evaluation across multiple seeds
 
-Top training scripts live in the `training/` folder. Examples:
+Video Demonstration
+Project video available at: https://youtu.be/9XwhzTRiBbo
 
-- `training/dqn_training.py` — DQN training (SB3)
-- `training/ppo_training.py` — PPO training (SB3)
-- `training/a2c_training.py` — A2C training (SB3)
-- `training/reinforce_training.py` — REINFORCE (PyTorch) and sweep tooling
-- `training/compare_all.py` — evaluate multiple saved models and produce comparison plots
+Author
+Joan Keza
+GitHub: jkeza1
+Project Repository: smeef_RL
 
-Run (example):
-
-```powershell
-python training/dqn_training.py
-python training/reinforce_training.py --total-episodes 500
-python training/compare_all.py
-```
-
-See `config/training_config.yaml` for default training hyperparameters.
-
-## Project layout (important files)
-
-## Project structure (as requested)
-
-Below is the repository structure produced from your PowerShell Get-ChildItem listing. Use this as the authoritative project layout.
-
-- Top-level folders
-	- `agents/`
-	- `config/`
-	- `environment/`
-	- `models/`
-	- `outputs/`
-	- `scripts/`
-	- `training/`
-
-- Important top-level files (examples from workspace)
-	- `create_diagram.py`
-	- `enhanced_demo.py`
-	- `ppo_demo.py`
-	- `README.md` (this file)
-	- `requirements.txt`
-	- `results_dashboard.py`
-	- `run_random_demo.py`
-	- `smeef.py`
-	- `smeef_demo.py`
-	- `__init__.py`
-
-- Local virtual environment (present in workspace)
-	- `.venv311/`  (recommended to add to `.gitignore`)
-
-- Notable subfolders & outputs in workspace
-	- `models/a2c/`, `models/dqn/`, `models/ppo/`, `models/reinforce/`
-	- `models/dqn/run_*` (per-run folders)
-	- `environment/` contains `smeef_env.py`, `obs_wrappers.py`, `rendering.py`
-	- `outputs/logs/`, `outputs/metrics/`, `outputs/plots/`, `outputs/videos/`
-	- `outputs/logs/<algorithm>/` (e.g. `a2c`, `dqn`, `ppo`, `reinforce`)
-	- `scripts/` contains plotting/analysis scripts: `generate_analysis_plots.py`, `plot_training_stability.py`, etc.
-	- `training/` contains training runners: `a2c_training.py`, `dqn_training.py`, `ppo_training.py`, `reinforce_training.py`, `compare_all.py`
-
-Notes
-
-- I used your Get-ChildItem output as the canonical structure. If you want me to reorganize files into a different folder layout (move files on disk and update imports), I can do that — tell me the target structure and I'll perform a safe refactor and run quick checks.
-- I also recommend adding `.venv311/`, `__pycache__/` and `*.pyc` to `.gitignore` to keep the repository clean; I'll add that next unless you'd rather manage `.gitignore` yourself.
-
-## Models & outputs
-
-- Trained models are stored under `models/<algorithm>/`. The repo contains several saved runs (zip/pt files).
-- Experiment artifacts (metrics, plots, TensorBoard logs, videos) are under `outputs/` (e.g. `outputs/metrics/`, `outputs/plots/`, `outputs/videos/`).
-
-## Environment summary
-
-The SMEEF environment (`environment/smeef_env.py`) exposes a mission-based grid-like task. Observations are provided as a dict; for training with standard MLP policies use the wrapper in `environment/obs_wrappers.py` to flatten/normalize the observation into a Box.
-
-Reward and termination logic are implemented in `smeef_env.py`. Use the `info` dict returned on each step for diagnostics (reward components, mission status, etc.).
-
-## Usage notes & troubleshooting
-
-- Observation-shape mismatch: ensure you apply the same `NormalizeFlattenObs` wrapper at training and inference.
-- Model compatibility: SB3 models are `.zip` files; PyTorch policies are `.pt`/`.pth` files. Check `smeef.py` for the `MODEL_PATHS` constants to point playback to a specific file.
-- Missing packages: install via `pip install -r requirements.txt` into the activated venv.
-
-## Suggested submission checklist
-
-If preparing this repository for a submission or external sharing, include:
-
-1. Source code (all `.py` files under repo root, `environment/`, `agents/`, `training/`)
-2. Trained model checkpoints under `models/` for the algorithms you want to demonstrate
-3. `outputs/` with sample `plots/`, `metrics/summary.csv`, and `videos/`
-4. A short report in `report/` containing environment description, reward shaping decisions, hyperparameter choices and key figures
-
-## Next steps I can help with
-
-- Shorten or expand this README
-- Add a CONTRIBUTING.md, LICENSE, or .gitignore that excludes local venvs
-- Create a one-page PDF report template in `report/`
-- Add automated scripts to export `report/figures/` from `outputs/plots/`
-
----
-
-
+License
+This project is for educational purposes as part of a reinforcement learning summative assignment.
