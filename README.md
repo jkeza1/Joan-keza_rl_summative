@@ -247,11 +247,14 @@ Comprehensive results including:
 
 ### PPO performance graph
 
-![PPO: Actual vs Expected Performance](assets/ppo_graph.png)
+![PPO: Actual vs Expected Performance](<img width="1366" height="655" alt="ppo_graph" src="https://github.com/user-attachments/assets/3a9c5e9e-d222-4ba4-9282-df8550b9529d" />
+)
 
 *Figure: PPO actual vs expected performance across hyperparameter sweeps.*
 
-Please copy the file `c:\Users\HP\Downloads\ppo_graph.png` into the repository at `assets/ppo_graph.png` (or place the image at `outputs/plots/ppo_graph.png` and update the path above) so the image renders on GitHub and local previews.
+<img width="1366" height="655" alt="ppo_graph" src="https://github.com/user-attachments/assets/67f21233-4100-497e-8d2d-06bb2cd66215" />
+
+
 
 ## Video Demonstration
 Project video available at: https://youtu.be/9XwhzTRiBbo
@@ -262,4 +265,5 @@ GitHub: jkeza1
 Project Repository: smeef_RL
 
 ## License
+
 This project is for educational purposes as part of a reinforcement learning summative assignment.
