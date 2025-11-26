@@ -252,6 +252,14 @@ Comprehensive results including:
 
 <img width="1366" height="655" alt="ppo_graph" src="https://github.com/user-attachments/assets/67f21233-4100-497e-8d2d-06bb2cd66215" />
 
+*Figure: Algorithm Comparison — Cumulative Reward*
+
+<img width="1366" height="655" alt="cumulative reward" src="https://github.com/user-attachments/assets/f3ccf6c4-c58a-4de4-bdfa-4d7a462827cc" />
+
+*Training Stability — Reward & Loss (A2C, PPO, REINFORCE, DQN)*
+
+<img width="1366" height="655" alt="reward-loss" src="https://github.com/user-attachments/assets/49a662e0-15fb-49bd-87d7-3bf4694e52c9" />
+
 
 
 ## Video Demonstration
@@ -265,4 +273,5 @@ Project Repository: smeef_RL
 ## License
 
 This project is for educational purposes as part of a reinforcement learning summative assignment.
+
 
