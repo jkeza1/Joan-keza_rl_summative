@@ -19,24 +19,50 @@ Dictionary containing:
 position: 2D coordinates in grid
 
 resources: [money, energy, skills, social_support] ∈ [0,100]
+ # SMEEF Reinforcement Learning Project
 
-needs: [childcare, financial, emotional, career] ∈ [0,100]
+## Project Overview
+This project implements and compares four reinforcement learning algorithms (DQN, REINFORCE, A2C, PPO) on a custom environment called SMEEF (Single Mother Economic Empowerment Framework). The environment simulates decision-making for single mothers balancing resources, services, and child well-being in a grid-based world.
 
-child_status: [health, happiness] ∈ [0,100]
+## Environment Description
 
-Reward Structure
+### Mission
+Maximize cumulative well-being by managing resources (money, energy, skills, social support) while reducing needs (childcare, financial, emotional, career) and improving child health/happiness.
+
+### Action Space
+Discrete with 8 actions:
+
+- MOVE_UP (0), MOVE_DOWN (1), MOVE_LEFT (2), MOVE_RIGHT (3)
+
+- USE_SERVICE (4), WORK_PART_TIME (5), ATTEND_TRAINING (6), SEEK_SUPPORT (7)
+
+### Observation Space
+Dictionary containing:
+
+- position: 2D coordinates in grid
+
+- resources: [money, energy, skills, social_support] ∈ [0,100]
+
+- needs: [childcare, financial, emotional, career] ∈ [0,100]
+
+- child_status: [health, happiness] ∈ [0,100]
+
+### Reward Structure
 Complex reward function that:
 
-Rewards improvements in resources and child status
+- Rewards improvements in resources and child status
 
-Penalizes energy consumption and invalid actions
+- Penalizes energy consumption and invalid actions
 
-Provides goal bonuses for reaching target locations
+- Provides goal bonuses for reaching target locations
 
-Applies penalties for critical failures (energy depletion, child health issues)
+- Applies penalties for critical failures (energy depletion, child health issues)
 
-Project Structure
+## Project Structure
+
 text
+
+```text
 smeef_RL/
 ├── agents/                 # RL agent implementations
 │   ├── a2c_agent.py
@@ -78,142 +104,174 @@ smeef_RL/
 ├── smeef.py             # Main environment file
 ├── smeef_demo.py        # Basic demonstration
 └── README.md            # This file
-Installation
+```
+
+## Installation
 Clone the repository:
 
-bash
+```bash
 git clone https://github.com/jkeza1/smeef_RL.git
 cd smeef_RL
+```
 Create and activate a virtual environment:
 
-bash
+```bash
 python -m venv .venv311
 source .venv311/bin/activate  # On Windows: .venv311\Scripts\activate
+```
 Install dependencies:
 
-bash
+```bash
 pip install -r requirements.txt
-Usage
-Training Agents
-DQN Training:
+```
 
-bash
+## Usage
+
+### Training Agents
+
+#### DQN Training:
+
+```bash
 python training/dqn_training.py
-PPO Training:
+```
 
-bash
+#### PPO Training:
+
+```bash
 python training/ppo_training.py
-A2C Training:
+```
 
-bash
+#### A2C Training:
+
+```bash
 python training/a2c_training.py
-REINFORCE Training:
+```
 
-bash
+#### REINFORCE Training:
+
+```bash
 python training/reinforce_training.py
-Running Demos
-Basic Environment Demo:
+```
 
-bash
+### Running Demos
+
+#### Basic Environment Demo:
+
+```bash
 python smeef_demo.py
-PPO Trained Agent Demo:
+```
 
-bash
+#### PPO Trained Agent Demo:
+
+```bash
 python ppo_demo.py
-Enhanced Visualization:
+```
 
-bash
+#### Enhanced Visualization:
+
+```bash
 python enhanced_demo.py
-Generating Reports and Plots
-Compare All Algorithms:
+```
 
-bash
+### Generating Reports and Plots
+
+#### Compare All Algorithms:
+
+```bash
 python training/compare_algorithms.py
-Generate Training Plots:
+```
 
-bash
+#### Generate Training Plots:
+
+```bash
 python scripts/plot_training.py
-Create Comparison Charts:
+```
 
-bash
+#### Create Comparison Charts:
+
+```bash
 python scripts/plot_comparison.py
-Algorithm Performance Summary
+```
+
+## Algorithm Performance Summary
 Based on extensive hyperparameter tuning (10+ runs per algorithm):
 
-Algorithm	Best Mean Reward	Convergence	Stability	Generalization
-PPO	-24.00	Fast	High	Excellent
-DQN	-14.50	Medium	Very High	Very Good
-A2C	-24.40	Fast	Medium	Good
-REINFORCE	-16.47	Variable	Low	Poor
-Key Findings:
+| Algorithm | Best Mean Reward | Convergence | Stability | Generalization |
+|---|---:|---|---|---|
+| PPO | -24.00 | Fast | High | Excellent |
+| DQN | -14.50 | Medium | Very High | Very Good |
+| A2C | -24.40 | Fast | Medium | Good |
+| REINFORCE | -16.47 | Variable | Low | Poor |
 
-PPO achieved the best overall performance with excellent generalization
+### Key Findings:
 
-DQN showed remarkable stability and consistent learning
+- PPO achieved the best overall performance with excellent generalization
 
-A2C learned quickly but was sensitive to hyperparameters
+- DQN showed remarkable stability and consistent learning
 
-REINFORCE demonstrated high variance but educational value
+- A2C learned quickly but was sensitive to hyperparameters
 
-Hyperparameter Tuning
+- REINFORCE demonstrated high variance but educational value
+
+## Hyperparameter Tuning
 Each algorithm underwent extensive hyperparameter optimization:
 
-DQN: Learning rate, buffer size, exploration schedule
+- DQN: Learning rate, buffer size, exploration schedule
 
-PPO: Learning rate, batch size, clip range, epochs
+- PPO: Learning rate, batch size, clip range, epochs
 
-A2C: Learning rate, n-steps, entropy coefficient
+- A2C: Learning rate, n-steps, entropy coefficient
 
-REINFORCE: Learning rate, gamma, hidden layer sizes
+- REINFORCE: Learning rate, gamma, hidden layer sizes
 
-Visualization
+## Visualization
 The environment features PyGame-based visualization showing:
 
-Agent position (red square)
+- Agent position (red square)
 
-Special locations (home, work, services)
+- Special locations (home, work, services)
 
-Resource status overlay
+- Resource status overlay
 
-Real-time reward feedback
+- Real-time reward feedback
 
-Requirements
+## Requirements
 Key dependencies:
 
-gymnasium>=0.28.1
+- gymnasium>=0.28.1
 
-stable-baselines3>=2.0.0
+- stable-baselines3>=2.0.0
 
-pygame>=2.5.0
+- pygame>=2.5.0
 
-numpy>=1.24.0
+- numpy>=1.24.0
 
-matplotlib>=3.7.0
+- matplotlib>=3.7.0
 
-torch>=2.0.0
+- torch>=2.0.0
 
 See requirements.txt for complete list.
 
-Results
+## Results
 Comprehensive results including:
 
-Training curves for all algorithms
+- Training curves for all algorithms
 
-Hyperparameter sensitivity analysis
+- Hyperparameter sensitivity analysis
 
-Generalization performance on unseen states
+- Generalization performance on unseen states
 
-Comparative analysis of sample efficiency
+- Comparative analysis of sample efficiency
 
-Robustness evaluation across multiple seeds
+- Robustness evaluation across multiple seeds
 
-Video Demonstration
+## Video Demonstration
 Project video available at: https://youtu.be/9XwhzTRiBbo
 
-Author
+## Author
 Joan Keza
 GitHub: jkeza1
 Project Repository: smeef_RL
 
-License
+## License
 This project is for educational purposes as part of a reinforcement learning summative assignment.
