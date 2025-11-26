@@ -273,12 +273,14 @@ Project video available at: https://youtu.be/9XwhzTRiBbo
 
 ## Author
 Joan Keza
-GitHub: jkeza1
-Project Repository: smeef_RL
+
+GitHub name: jkeza1
+Project Repository: Joan-keza_rl_summative
 
 ## License
 
 This project is for educational purposes as part of a reinforcement learning summative assignment.
+
 
 
 
